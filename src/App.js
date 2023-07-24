@@ -9,9 +9,11 @@ import DataContext from './context/DataContext';
 import Login from './pages/login/Login';
 import Home from './pages/home/Home';
 import Novo from './pages/novo/Novo';
-import Tenants from './pages/tenants/Tenants';
+import Lojas from './pages/lojas/Lojas';
 
-function App() {
+
+const App = () => {
+
   const {setLogged,logged} = useContext(DataContext);
 
   return (
@@ -19,11 +21,12 @@ function App() {
       <DataProvider>
           <BrowserRouter>
               <Routes>
-                  <Route path="/" element={<Login />} />
+                  <Route path="/login" element={<Login />} />
                   <Route element={<PrivateRoutes />} >
-                    <Route element={<MainLayout setLogged={setLogged}/>}>
-                        <Route path="/home" element={<Novo/>}/>
-                        <Route path="/tenants" element={<Tenants/>}/>
+                    <Route element={<MainLayout />}>
+                        <Route path="/lojas/nova" element={<Novo/>}/>
+                        <Route path="/lojas" element={<Lojas/>}/>
+                        <Route path="/" element={<Home/>}/>
                     </Route>
                   </Route>
               </Routes>

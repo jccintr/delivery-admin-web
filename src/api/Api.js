@@ -10,7 +10,7 @@ export default {
 
 
     login: async (email, password) => {
-        const response = await fetch(`${BASE_API}/auth/login`, {
+        const response = await fetch(`${BASE_API}/auth/login2`, {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
@@ -21,13 +21,39 @@ export default {
        // const json = await req.json();
         return response;
     },
+    getUser: async (token) => {
+        const response = await fetch(`${BASE_API}/user`, {
+            method: 'GET',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            },
+        });
+        return response;
+    },
     
-    addTenant: async (fd) => {
+    addTenant: async (token,fd) => {
         const response = await fetch(`${BASE_API}/tenant`, {
             method: 'POST',
+            headers: {
+               
+                'Authorization': 'Bearer ' + token
+            },
             body: fd
         });
        return response;
+    },
+    getTenants: async (token) => {
+        const response = await fetch(`${BASE_API}/tenant`, {
+            method: 'GET',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            },
+        });
+        return response;
     },
    
 

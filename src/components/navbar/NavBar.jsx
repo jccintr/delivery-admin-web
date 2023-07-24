@@ -1,45 +1,41 @@
-import React, {ReactNode} from 'react';
-import {
-    Box,
-    Flex,
-    Avatar,
-    HStack,
-    Link,
-    IconButton,
-    Button,
-    Menu,
-    MenuButton,
-    MenuList,
-    MenuItem,
-    MenuDivider,
-    useDisclosure,
-    useColorModeValue,
-    Stack,
-    Text,
-  } from '@chakra-ui/react';
-  import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
+import React, {useContext} from 'react';
+import { Link } from 'react-router-dom';
+import {Box,Flex,HStack,IconButton,Button,useDisclosure,useColorModeValue,Stack,Text} from '@chakra-ui/react';
+import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
+import DataContext from '../../context/DataContext';
   
   const Links = ['Home', 'Lojas', 'Relatórios'];
-  
-  const NavLink = ({ label,selected }) => (
-    <Link
-      borderWidth={selected?'1px':''}
-      px={2}
-      py={1}
-      rounded={'md'}
-      color='white'
-      _hover={{
-        color:'blue.500',
-        textDecoration: 'none',
-        bg: useColorModeValue('gray.200', 'gray.700'),
-      }}
-      href={'#'}>
-      {label}
-    </Link>
-  );
 
-const NavBar = ({selected}) => {
+  const navLinks = [
+    {
+      id: 0,
+      label: 'Dashboard',
+      link: '/'
+    },
+    {
+      id: 1,
+      label: 'Lojas',
+      link: '/lojas'
+    },
+    
+];
+  
+const NavLink = ({ item }) => (<Link style={{ textDecoration: "none",color: 'white' }} to={item.link}>{item.label}</Link>);
+
+
+ 
+
+const NavBar = () => {
     const { isOpen, onOpen, onClose } = useDisclosure();
+    const {setLogged,setLoggedUser} = useContext(DataContext);
+
+    const logout = () =>{
+      localStorage.removeItem('token');
+      setLogged(false);
+      setLoggedUser(null);
+      
+   }
+
     return (
         <>
           <Box bg='blue.500'  px={4}>
@@ -58,19 +54,25 @@ const NavBar = ({selected}) => {
                   as={'nav'}
                   spacing={4}
                   display={{ base: 'none', md: 'flex' }}>
-                  {Links.map((link,index) => (
-                    <NavLink key={link} label={link} selected={index===selected}/>
+                  {navLinks.map((navLink) => (
+                    <NavLink key={navLink.id} item={navLink} />
                   ))}
                 </HStack>
               </HStack>
-              <Link 
-                 color='white'
-                 textDecoration='none'
-                 href={'/logout'}
-                 _hover={{textDecoration: 'none',}}
-                 >
-                 Logout
-              </Link>
+              <Button 
+                  color='white'
+                  variant='outline'
+                  onClick={logout}
+                  size='sm'
+                  _hover={{
+                    color:'blue.500',
+                    textDecoration: 'none',
+                    bg: useColorModeValue('gray.200', 'gray.700'),
+                  }}
+                  >
+                   Logout
+              </Button>
+              
               
             </Flex>
     

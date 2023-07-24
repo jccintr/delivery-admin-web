@@ -1,4 +1,4 @@
-import React, {useState,useContext} from 'react';
+import React, {useState,useContext,useEffect} from 'react';
 import {Flex,Box,FormControl,FormLabel,Input,Checkbox,Stack,Link,Button,Heading,Text,useColorModeValue,useToast } from '@chakra-ui/react';
 import DataContext from '../../context/DataContext';
 import Api from '../../api/Api.js';
@@ -6,8 +6,8 @@ import Api from '../../api/Api.js';
 import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
-    const [remember,setRemember] = useState(true);
-    const {setLogged,setLoggedUser} = useContext(DataContext);
+    const [remember,setRemember] = useState(false);
+    const {setLogged,setLoggedUser,setApiToken,apiToken} = useContext(DataContext);
     const [email,setEmail] = useState('');
     const [password,setPassword] = useState('');
     const [isLoading,setIsLoading] = useState(false);
@@ -15,6 +15,11 @@ const Login = () => {
     const toast = useToast();
 
 
+/*
+useEffect(()=>{
+
+    }, []);
+*/
 
     const onLogin = async () =>{
 
@@ -22,9 +27,13 @@ const Login = () => {
       let response = await Api.login(email,password);
       if(response.status===200){
           let json = await response.json();
+          if (remember) {
+             localStorage.setItem('token', json.token);  
+          }
+          setApiToken(json.token);
           setLoggedUser(json);
           setLogged(true);
-          navigate('/home');
+          navigate('/lojas');
       }
       else{
           toast({

@@ -7,7 +7,7 @@ const PrivateRoutes = () => {
   const {logged} = useContext(DataContext);
   
   return (
-    logged ? <Outlet/>: <Navigate to='/'/>
+    logged ? <Outlet/>: <Navigate to='/login'/>
   )
 }
 

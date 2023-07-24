@@ -1,10 +1,13 @@
-import React, {useState} from 'react';
+import React, {useState,useContext} from 'react';
 import { Flex,Text,Box,useColorModeValue,Stack } from '@chakra-ui/react';
-import { FormControl,FormLabel,Input,Select,Button,useToast } from '@chakra-ui/react';
+import { FormControl,FormLabel,Input,Select,Button,useToast,Heading } from '@chakra-ui/react';
 import Api from '../../api/Api';
+import { useNavigate } from 'react-router-dom';
+import DataContext from '../../context/DataContext';
 
 
 const Novo = () => {
+    const {apiToken} = useContext(DataContext);
     const [name,setName] = useState('');
     const [email,setEmail] = useState('');
     const [password,setPassword] = useState('');
@@ -14,8 +17,11 @@ const Novo = () => {
     const [cidade,setCidade] = useState('');
     const [estado,setEstado] = useState('');
     const [logotipo,setLogotipo] = useState('');
+    const [corFundo,setCorFundo] = useState('#000000');
+    const [corTexto,setCorTexto] = useState('#ffffff');
     const [isLoading,setIsLoading] = useState(false);
     const toast = useToast();
+    const navigate = useNavigate();
 
     const estados = [
         { sigla: 'AC',nome: 'Acre' },
@@ -61,7 +67,9 @@ const Novo = () => {
         fd.append('cidade',cidade);
         fd.append('estado',estado);
         fd.append('logotipo',logotipo);
-        let response = await Api.addTenant(fd);
+        fd.append('cor_fundo',corFundo);
+        fd.append('cor_texto',corTexto);
+        let response = await Api.addTenant(apiToken,fd);
         if(response.status===201){
           
           toast({
@@ -73,10 +81,9 @@ const Novo = () => {
           });
           //onClose();
           setIsLoading(false);
+          navigate('/lojas');
       } else {
-        //console.log(response.status);
         let erro = await response.json();
-        //console.log(erro);
         toast({
           title: 'Falha !',
           description: erro.erro,
@@ -99,10 +106,14 @@ const Novo = () => {
       
       }
     
+      const onCancelar = () => {
+        navigate('/lojas');
+      }
 
   return (
     <Flex minH={'100vh'} direction='column' align={'center'} justify={'flex-start'} bg={['white','gray.100']} p='8'>
-        <Text mb='4' fontSize={'2xl'} >Nova Loja</Text>
+        <Heading mb='4' fontSize={'3xl'}>Nova Loja</Heading>
+        
         <Box w={['300px','800px']} rounded={'lg'} bg={useColorModeValue('white', 'gray.700')} boxShadow={['none','lg']} p={[0,8]}>
             <Stack px={['0','0','12']} direction={['column', 'column', 'row']} spacing={['6', '6', '5']}>
                 <FormControl mb='4' isRequired>
@@ -145,7 +156,7 @@ const Novo = () => {
             <Stack px={['0','0','12']} direction={['column', 'column', 'row']} spacing={['6', '6', '5']}>
                     <FormControl mb='4' isRequired>
                         <FormLabel>
-                        Estado:
+                        Estado
                         </FormLabel>
                         <Select 
                             placeholder='Selecione um estado'
@@ -158,9 +169,19 @@ const Novo = () => {
                     </FormControl>
             </Stack>
             <Stack px={['0','0','12']} direction={['column', 'column', 'row']} spacing={['6', '6', '5']}>
+                <FormControl mb='4' isRequired>
+                  <FormLabel>Cor do Texto</FormLabel>
+                  <Input type="color" value={corTexto} onChange={e => setCorTexto(e.target.value)}/>
+                </FormControl>
+                <FormControl mb='4' isRequired>
+                  <FormLabel>Cor do Fundo</FormLabel>
+                  <Input type="color" value={corFundo} onChange={e => setCorFundo(e.target.value)}/>
+                </FormControl>
+            </Stack>
+            <Stack px={['0','0','12']} direction={['column', 'column', 'row']} spacing={['6', '6', '5']}>
                     <FormControl>
                         <FormLabel>
-                            Logotipo:
+                            Logotipo
                         </FormLabel>
                         <Input mb='4' type="file" id="imagem" name="imagem" onChange={handlerLogotipo}/>
                     </FormControl>
@@ -174,6 +195,15 @@ const Novo = () => {
                         _hover={{bg: 'blue.500',}}
                     >
                         SALVAR
+                </Button>
+                <Button 
+                        isLoading={isLoading}
+                        onClick={onCancelar}
+                        bg={'red.400'}
+                        color={'white'}
+                        _hover={{bg: 'red.500',}}
+                    >
+                        CANCELAR
                 </Button>
             </Stack>
         </Box>
