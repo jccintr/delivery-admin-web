@@ -94,6 +94,7 @@ const Lojas = () => {
                 columns={columns}
                 data={lojas}
                 highlightOnHover
+                noDataComponent="Registros não encontrados."
             />
        </Box>
     </Flex>

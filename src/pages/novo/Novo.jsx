@@ -11,6 +11,7 @@ const Novo = () => {
     const [name,setName] = useState('');
     const [email,setEmail] = useState('');
     const [password,setPassword] = useState('');
+    const [slug,setSlug] = useState('');
     const [telefone,setTelefone] = useState('');
     const [logradouro,setLogradouro] = useState('');
     const [bairro,setBairro] = useState('');
@@ -61,6 +62,7 @@ const Novo = () => {
         fd.append('name',name);
         fd.append('email',email);
         fd.append('password',password);
+        fd.append('slug',slug);
         fd.append('telefone',telefone);
         fd.append('logradouro',logradouro);
         fd.append('bairro',bairro);
@@ -132,6 +134,10 @@ const Novo = () => {
                 </FormControl>
             </Stack>
             <Stack px={['0','0','12']} direction={['column', 'column', 'row']} spacing={['6', '6', '5']}>
+                <FormControl mb='4' isRequired>
+                  <FormLabel>Slug</FormLabel>
+                  <Input type="text" value={slug} onChange={e => setSlug(e.target.value)}/>
+                </FormControl>
                 <FormControl mb='4' isRequired>
                   <FormLabel>Telefone</FormLabel>
                   <Input type="text" value={telefone} onChange={e => setTelefone(e.target.value)}/>
