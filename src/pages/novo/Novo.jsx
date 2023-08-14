@@ -114,7 +114,7 @@ const Novo = () => {
 
   return (
     <Flex minH={'100vh'} direction='column' align={'center'} justify={'flex-start'} bg={['white','gray.100']} p='8'>
-        <Heading mb='4' fontSize={'3xl'}>Nova Loja</Heading>
+        <Heading mb='4' fontSize={'xl'}>Nova Loja Parceira</Heading>
         
         <Box w={['300px','800px']} rounded={'lg'} bg={useColorModeValue('white', 'gray.700')} boxShadow={['none','lg']} p={[0,8]}>
             <Stack px={['0','0','12']} direction={['column', 'column', 'row']} spacing={['6', '6', '5']}>

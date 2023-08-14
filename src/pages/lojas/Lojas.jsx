@@ -86,10 +86,10 @@ const Lojas = () => {
 
   return (
     <Flex minH={'100vh'} height='100vh' direction='column' align={'center'} justify={'flex-start'} bg={['white','gray.100']} p='8'>
-       <Heading mb='4' fontSize={['1xl','3xl']}>Lojas Cadastradas</Heading>
+       <Heading mb='4' fontSize={['1xl','xl']}>Lojas Parceiras</Heading>
        
        <Box w={['350px','1200px']} rounded={'lg'} bg={useColorModeValue('white', 'gray.700')} boxShadow={['none','lg']} p={[0,8]}>
-          <Button onClick={onAdd} bg={'blue.400'} color={'white'} _hover={{bg: 'blue.500',}} size='sm'>NOVA LOJA</Button>
+          <Button onClick={onAdd} bg={'blue.400'} color={'white'} _hover={{bg: 'blue.500',}} size='sm'>ADICIONAR LOJA</Button>
           <DataTable
                 columns={columns}
                 data={lojas}
