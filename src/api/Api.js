@@ -36,10 +36,7 @@ export default {
     addTenant: async (token,fd) => {
         const response = await fetch(`${BASE_API}/tenant`, {
             method: 'POST',
-            headers: {
-               
-                'Authorization': 'Bearer ' + token
-            },
+            headers: {'Authorization': 'Bearer ' + token},
             body: fd
         });
        return response;
