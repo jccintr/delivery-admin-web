@@ -1,10 +1,22 @@
-import React, {useState,useContext} from 'react';
+import React, {useState,useContext,useEffect} from 'react';
 import { Flex,Text,Box,useColorModeValue,Stack } from '@chakra-ui/react';
 import { FormControl,FormLabel,Input,Select,Button,useToast,Heading } from '@chakra-ui/react';
 import Api from '../../api/Api';
 import { useNavigate } from 'react-router-dom';
 import DataContext from '../../context/DataContext';
 
+const insertPhoneMask = (phone) => {
+
+  const noMask = phone.replace(/\D/g, '');
+  const { length } = noMask;
+  if (length <= 11) {
+    return noMask
+      .replace(/(\d{2})(\d)/, '($1) $2')
+      .replace(length === 11 ? /(\d{5})(\d)/ : /(\d{4})(\d)/, '$1-$2');
+  }
+  return phone;
+
+}
 
 const Novo = () => {
     const {apiToken} = useContext(DataContext);
@@ -23,6 +35,10 @@ const Novo = () => {
     const [isLoading,setIsLoading] = useState(false);
     const toast = useToast();
     const navigate = useNavigate();
+
+    useEffect(() => {
+      setTelefone(insertPhoneMask(telefone));
+   }, [telefone]);
 
     const estados = [
         { sigla: 'AC',nome: 'Acre' },
